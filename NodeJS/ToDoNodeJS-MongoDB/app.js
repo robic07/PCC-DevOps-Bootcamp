@@ -2,9 +2,28 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const db = require("./db/connection.js");
-const {createTasksCollection, getTasks, addTask, completeTask} = require("./db/db-logic.js");
+const {
+  createTasksCollection,
+  getTasks,
+  addTask,
+  completeTask,
+} = require("./db/db-logic.js");
+const winston = require("winston");
 const app = express();
 
+// Configure Winston logger
+const logger = winston.createLogger({
+  levels: winston.config.syslog.levels,
+  format: winston.format.combine(
+    winston.format.timestamp({
+      format: "YYYY-MM-DD HH:mm:ss",
+    }),
+    winston.format.printf(({ level, message, timestamp }) => {
+      return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+    })
+  ),
+  transports: [new winston.transports.Console()],
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -19,43 +38,46 @@ app.get("/client-side.js", (req, res) => {
 });
 
 // Post route for adding a new task
-app.post("/addtask", async function(req, res, next) {
+app.post("/addtask", async function (req, res, next) {
   try {
-    addTask(req, res, next)
+    addTask(req, res, next);
+    logger.info(`Task "${req.body.newItem}" added successfully.`); // Log successful addition
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error adding task');
+    logger.error(`Error adding task: ${error.message}`); // Log error details
+    res.status(500).send("Error adding task");
   }
 });
 
 // Post route for removing a task
-app.post("/completeTask", async function(req, res, next) {
+app.post("/completeTask", async function (req, res, next) {
   try {
-    completeTask(req, res, next)
-    } 
-  catch (error) {
+    completeTask(req, res, next);
+    logger.info(`Task with ID "${req.body}" completed.`); // Log task completion
+  } catch (error) {
     console.error(error);
-    res.status(500).send('Error completing task');
+    logger.error(`Error completing task: ${req.body}`); // Log error details
+    res.status(500).send("Error completing task");
   }
 });
 
 // Get route for displaying tasks
-app.get("/getTodo", function(req, res) {
+app.get("/getTodo", function (req, res) {
   try {
-    getTasks(req, res)
+    getTasks(req, res);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error retrieving tasks');
+    logger.error(`Error retrieving tasks: ${error.message}`); // Log error details
+    res.status(500).send("Error retrieving tasks");
   }
 });
 
 // Set app to listen on port 3000
 
-
-app.listen(3000, async function() {
-  try {    
-    console.log("Server is running on port 3000");
+app.listen(3000, async function () {
+  try {
+    logger.info("Server is running on port 3000."); // Log successful server start
   } catch (error) {
-    console.error('Error starting server:', error);
+    logger.error(`Error starting server: ${error}`); // Log error details
   }
 });

@@ -23,7 +23,8 @@
     "mongodb": "^3.5.7",
     "mongodb-client-encryption": "^6.0.0",
     "save": "^2.4.0",
-    "uuid-mongodb": "^2.5.5"
+    "uuid-mongodb": "^2.5.5",
+    "winston": "^3.13.1"
   },
   "devDependencies": {
     "webpack": "^5.91.0",
