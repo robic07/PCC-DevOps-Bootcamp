@@ -6,7 +6,7 @@ The app is a simple CRUD (Create, read, update, delete) Todo application made wi
 
 ### Node version
 
-- NodeJS v18.12.1
+- NodeJS v20.16.0
 
 ## Common setup
 

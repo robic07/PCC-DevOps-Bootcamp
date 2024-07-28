@@ -6,7 +6,7 @@ The app is a simple CRUD (Create, read, update, delete) Todo application made wi
 
 ### Node version
 
-* NodeJS v18.12.1
+- NodeJS v20.16.0
 
 ## Common setup
 
@@ -22,20 +22,22 @@ npm run start
 
 App should be accessible here: [http://localhost:3000](http://localhost:3000).
 
-
 ## Build the application ready for production
 
 Step 1: Install the npm packages
+
 ```bash
 npm install
 ```
 
 Step 2: Build the application by running this command
+
 ```bash
 npm run build-prod
 ```
 
 Step 3: Run the output build
+
 ```bash
 npm run serve
 ```

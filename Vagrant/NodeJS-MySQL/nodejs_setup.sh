@@ -8,7 +8,7 @@ cd ~
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 source ~/.nvm/nvm.sh
 echo "source ~/.nvm/nvm.sh" >> ~/.bashrc
-nvm install v18.12.1
+nvm install v20.16.0
 sudo mkdir /opt/PCC-DevOps-Bootcamp
 sudo chown -R vagrant:vagrant /opt/PCC-DevOps-Bootcamp
 

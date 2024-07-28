@@ -5,11 +5,11 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --inspect app",
+    "start": "node --env-file=.env --inspect app",
     "build": "webpack --config webpack.config.js  && xcopy /Y /I *.html dist\\ && xcopy /S /E /Y client dist\\",
     "build-prod": "webpack --config webpack.config.js  && cp *.html dist/ && cp -R client dist/",
     "serve": "node dist/bundle.js"
-    },
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -19,8 +19,9 @@
     "dotenv": "^16.4.5",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
-    "mysql": "^2.18.1",
-    "save": "^2.4.0"
+    "mysql2": "^3.11.0",
+    "save": "^2.4.0",
+    "winston": "^3.13.1"
   },
   "devDependencies": {
     "webpack": "^5.91.0",

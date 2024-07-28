@@ -8,43 +8,62 @@
       rel="stylesheet"
       id="bootstrap-css"
     />
-    <title>NodeJS Mongodb Todo</title>
+    <title>NodeJS MongoDB Todo</title>
   </head>
   <style>
-    .footer {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      padding: 1rem;
-      background-color: #efefef;
-      text-align: center;
-    }
     ::placeholder {
       text-overflow: ellipsis;
+    }
+    .title-banner img {
+      width: 5%;
+    }
+    .title-banner .row {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    body::after {
+      background-image: url(https://scontent.fpag2-1.fna.fbcdn.net/v/t39.30808-6/220218877_343353190721918_4755974385476303274_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=WwpxorWEd8wQ7kNvgEHK9by&_nc_ht=scontent.fpag2-1.fna&oh=00_AYBS7yM965b56egJbwL3zaaEASOkVhSocLXsOR7huHuHVg&oe=66AC20C6);
+      content: "";
+      background-size: 20%;
+      opacity: 0.5;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: fixed;
+      z-index: -1;
     }
   </style>
 
   <body>
-    <section class="title-banner py-4 bg-success text-white" id="title-banner">
+    <div class="bg"></div>
+    <section class="title-banner py-4 bg-secondary text-white" id="title-banner">
       <div class="container">
         <div class="row">
-          <h4>NodeJS Mongodb Todo</h4>
+          <img
+            src="https://static-00.iconduck.com/assets.00/node-js-icon-454x512-nztofx17.png"
+            alt="nodejslogo"
+          />
+          <img
+            src="https://www.svgrepo.com/show/331488/mongodb.svg"
+            alt="mongodblogo"
+          />
+          <h4 class="">NodeJS MongoDB Todo</h4>
         </div>
       </div>
     </section>
     <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <div class="form-group p-3">
-            <input
-              id="newItem"
-              type="text"
-              name="newtask"
-              placeholder="Add new todo Item"
-            />
-          </div>
-        </div>
+      <div class="input-group my-3">
+        <input
+          id="newItem"
+          type="text"
+          name="newtask"
+          class="form-control"
+          placeholder="Add new Todo Item"
+          aria-label="Add new Todo Item"
+          aria-describedby="basic-addon2"
+        />
       </div>
       <div class="container">
         <div class="row">
@@ -74,11 +93,6 @@
         </div>
       </div>
     </div>
-    <footer>
-      This application is running on container/server id:
-      <strong>{{hostname}}</strong>.
-    </footer>
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./client-side.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

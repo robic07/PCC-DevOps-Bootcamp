@@ -1,1 +1,0 @@
-ALTER USER 'test'@'%' IDENTIFIED WITH mysql_native_password BY 'test'

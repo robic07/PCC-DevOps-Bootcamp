@@ -2,32 +2,36 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const db = require("./db/connection.js");
-const fs = require("fs");
-const os = require("os");
 const {
   createTasksTable,
   getTasks,
   addTask,
   completeTask,
 } = require("./db/db-logic.js");
+const winston = require("winston"); // Import Winston library
+
 const app = express();
+
+// Configure Winston logger
+const logger = winston.createLogger({
+  levels: winston.config.syslog.levels,
+  format: winston.format.combine(
+    winston.format.timestamp({
+      format: "YYYY-MM-DD HH:mm:ss",
+    }),
+    winston.format.printf(({ level, message, timestamp }) => {
+      return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+    })
+  ),
+  transports: [new winston.transports.Console()],
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  // Get the hostname
-  const hostname = os.hostname();
-
-  // Read the HTML file
-  let html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
-
-  // Replace the placeholder with the actual hostname
-  html = html.replace(/{{hostname}}/g, hostname);
-
-  // Send the modified HTML file
-  res.send(html);
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.get("/client-side.js", (req, res) => {
@@ -39,9 +43,10 @@ app.post("/addtask", async function (req, res) {
   const newTask = req.body.newItem;
   try {
     await addTask(newTask);
+    logger.info(`Task "${newTask}" added successfully.`); // Log successful addition
     res.redirect("/");
   } catch (error) {
-    console.error(error);
+    logger.error(`Error adding task: ${error.message}`); // Log error details
     res.status(500).send("Error adding task");
   }
 });
@@ -51,15 +56,17 @@ app.post("/completeTask", async function (req, res) {
   const tasks = req.body;
   try {
     if (typeof tasks === "string") {
-      await completeTask(tasks); // assuming task id is stored in the database
+      await completeTask(tasks);
+      logger.info(`Task with ID "${tasks}" completed.`); // Log task completion
     } else if (Array.isArray(tasks)) {
       for (const taskId of tasks) {
-        await completeTask(taskId); // assuming task id is stored in the database
+        await completeTask(taskId);
+        logger.info(`Task with ID "${taskId}" completed.`); // Log multiple completions
       }
     }
     res.redirect("/");
   } catch (error) {
-    console.error(error);
+    logger.error(`Error completing task: ${error.message}`); // Log error details
     res.status(500).send("Error completing task");
   }
 });
@@ -70,7 +77,7 @@ app.get("/getTodo", async function (req, res) {
     const tasks = await getTasks();
     res.json(tasks);
   } catch (error) {
-    console.error(error);
+    logger.error(`Error retrieving tasks: ${error.message}`); // Log error details
     res.status(500).send("Error retrieving tasks");
   }
 });
@@ -80,8 +87,8 @@ app.listen(3000, async function () {
   try {
     // await db.query('DROP TABLE tasks');
     await createTasksTable();
-    console.log("Server is running on port 3000");
+    logger.info("Server is running on port 3000."); // Log successful server start
   } catch (error) {
-    console.error("Error starting server:", error);
+    logger.error(`Error starting server: ${error}`); // Log error details
   }
 });
