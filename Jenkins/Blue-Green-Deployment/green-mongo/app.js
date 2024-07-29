@@ -8,6 +8,8 @@ const {
   addTask,
   completeTask,
 } = require("./db/db-logic.js");
+const fs = require("fs");
+const os = require("os");
 const winston = require("winston");
 const app = express();
 
@@ -30,7 +32,17 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  // Get the hostname
+  const hostname = os.hostname();
+
+  // Read the HTML file
+  let html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
+
+  // Replace the placeholder with the actual hostname
+  html = html.replace(/{{hostname}}/g, hostname);
+
+  // Send the modified HTML file
+  res.send(html);
 });
 
 app.get("/client-side.js", (req, res) => {

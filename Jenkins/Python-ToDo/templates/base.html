@@ -36,6 +36,9 @@
         position: fixed;
         z-index: -1;
       }
+      div > h1.ui {
+        color: {{ h1_color }} !important;
+      }
     </style>
 
     <section class="title-banner py-4 bg-light text-black" id="title-banner">
@@ -88,7 +91,12 @@
       </div>
       {% endfor %}
     </div>
-
+    <footer class="text-center text-white" style="background-color: #000000;"></footer>
+    <div class="text-center p-3">
+      This application is running on container/server id:
+      <strong>{{container_id}}</strong>.
+    </div>
+  </footer>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   </body>
