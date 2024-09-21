@@ -12,7 +12,7 @@ nvm install v20.16.0
 sudo mkdir /opt/PCC-DevOps-Bootcamp
 sudo chown -R vagrant:vagrant /opt/PCC-DevOps-Bootcamp
 
-git clone https://github.com/kjakedev/PCC-DevOps-Bootcamp.git /opt/PCC-DevOps-Bootcamp
+git clone https://github.com/kjakepcc/PCC-DevOps-Bootcamp.git /opt/PCC-DevOps-Bootcamp
 
 
 npm install pm2 -g

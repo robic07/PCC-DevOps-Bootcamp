@@ -1,5 +1,12 @@
 Vagrant.configure("2") do |config|
   # Define Ubuntu servers
+  # This is the fix in WSL error:
+  # vm:
+  # * The host path of the shared folder is not supported from WSL. Host
+  # path of the shared folder must be located on a file system with
+  # DrvFs type. Host path: .
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.boot_timeout = 600 # 10 minutes
   config.vm.define "mysql" do |mysql|
     mysql.vm.box = "bigdeal/mysql57"
     mysql.vm.hostname = "mysql"
@@ -19,6 +26,8 @@ Vagrant.configure("2") do |config|
     mongodb.vm.provision "shell", inline: "mv /tmp/*.sh /opt/ && chmod +x /opt/*.sh"
     mongodb.vm.provision "shell", path: "./mongodb_setup.sh"
     mongodb.vm.provider "virtualbox" do |vb|
+#  Fix for WSL error
+      vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
       vb.memory = "2048"
       vb.cpus = "2"
       vb.name = "mongodb"
