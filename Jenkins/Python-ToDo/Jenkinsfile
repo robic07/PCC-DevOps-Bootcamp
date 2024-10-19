@@ -41,8 +41,8 @@ pipeline {
         stage('Cleanup existing docker container') {
             steps {
                 script {
-                     sh 'docker stop python-todo-app'
-                     sh 'docker rm python-todo-app'
+                     sh 'docker stop python-todo-app || exit 0'
+                     sh 'docker rm python-todo-app || exit 0'
                 }
             }
         }
