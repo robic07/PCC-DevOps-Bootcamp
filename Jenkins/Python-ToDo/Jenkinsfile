@@ -2,11 +2,9 @@ pipeline {
     agent {label 'python-todo'}
 
     environment {
-        // TODO: Replace <your github username> with your own github user name
-        REPO_URL = 'https://github.com/<your github username>/PCC-DevOps-Bootcamp'
+        REPO_URL = 'https://github.com/kjakepcc/PCC-DevOps-Bootcamp'
         REPO_DIR = '/home/ubuntu/PCC-DevOps-Bootcamp'
-        // TODO: Replace <dockerhub username> with your own dockerhub user name
-        DOCKER_IMAGE = '<dockerhub username>/pcc-python-todo-sample-app'
+        DOCKER_IMAGE = 'kjakepcc/pcc-python-todo-sample-app'
         DOCKER_TAG = "${currentBuild.number}"
         DOCKER_LATEST_TAG = 'latest'
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub-credentials'
@@ -17,7 +15,6 @@ pipeline {
             steps {
                 dir("${REPO_DIR}") {
                     git url: "${REPO_URL}"
-                    // sh "git pull --origin master"
                 }
             }
         }
@@ -44,18 +41,7 @@ pipeline {
         stage('Deploy to AWS EC2') {
             steps {
                 script {
-                    // Check if a container with the same name is running
-                    def containerName = "python-todo"
-                    def containerStatus = sh(script: "docker ps -a -q --filter 'name=${containerName}'", returnStdout: true).trim()
-
-                    if (containerStatus) {
-                        // Stop and remove the existing container
-                        sh "docker stop ${containerName}"
-                        sh "docker rm ${containerName}"
-                    }
-
-                    // Run the new container
-                    sh "docker run --name ${containerName} -p 5000:5000 -e H1_COLOR=blue -d ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                     sh 'docker run -p 5000:5000 -e H1_COLOR=green -d ${DOCKER_IMAGE}:${DOCKER_TAG}'
                 }
             }
         }
