@@ -15,7 +15,7 @@ sudo apt install -y libmysqlclient-dev
 sudo apt install -y python3.8-venv
 sudo apt install -y libvirt-dev
 
-git clone https://github.com/kjakedev/PCC-DevOps-Bootcamp.git /opt/PCC-DevOps-Bootcamp
+git clone https://github.com/kjakepcc/PCC-DevOps-Bootcamp.git /opt/PCC-DevOps-Bootcamp
 
 cd /opt/PCC-DevOps-Bootcamp/Python/TodoFlask-MySQL
 sed -i -e 's/localhost/192.1.1.11/g' app.py

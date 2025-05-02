@@ -35,7 +35,7 @@ resource "aws_instance" "jenkins" {
                                 echo "11c45387d6371d0397d7b5609b06c1982a" > /tmp/pcc-devops-token
                                 tar -xzvf /tmp/jenkins_backup.tar.gz --strip-components=3 -C /var/lib/jenkins/
                                 sed -i 's/python-todo\.publicIP/${aws_instance.python-todo.public_ip}/g' /var/lib/jenkins/nodes/python-todo/config.xml
-                                sed -i 's/kjakedev/${var.github_username}/g' /var/lib/jenkins/jobs/python-todo/config.xml
+                                sed -i 's/kjakepcc/${var.github_username}/g' /var/lib/jenkins/jobs/python-todo/config.xml
                                 systemctl start jenkins
                                 EOT
 

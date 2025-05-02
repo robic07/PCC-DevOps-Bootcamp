@@ -74,7 +74,7 @@ resource "aws_instance" "bastion_host" {
               ${aws_network_interface.kubenode["worker-node02"].private_ip} worker-node02
               EOF
               apt install -y git
-              git clone https://github.com/kjakedev/PCC-DevOps-Bootcamp.git /home/ubuntu/PCC-DevOps-Bootcamp
+              git clone https://github.com/kjakepcc/PCC-DevOps-Bootcamp.git /home/ubuntu/PCC-DevOps-Bootcamp
               chown -R ubuntu:ubuntu /home/ubuntu/PCC-DevOps-Bootcamp
               apt-add-repository ppa:ansible/ansible
               apt update
