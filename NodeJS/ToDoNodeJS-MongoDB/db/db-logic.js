@@ -136,6 +136,7 @@ async function completeTask(req, res, next) {
   }
 }
 
+logger.info("DB is connecting...");
 db.connect((err) => {
   if (err) {
     logger.error("unable to connect to database");

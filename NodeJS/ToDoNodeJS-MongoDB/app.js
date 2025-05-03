@@ -1,9 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const db = require("./db/connection.js");
 const {
-  createTasksCollection,
   getTasks,
   addTask,
   completeTask,
