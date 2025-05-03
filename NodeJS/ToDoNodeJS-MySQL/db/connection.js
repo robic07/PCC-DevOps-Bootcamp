@@ -17,6 +17,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 // Promisify the db.query method for easier async/await usage
 db.query = util.promisify(db.query).bind(db);
