@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
+import socket
+import sqlalchemy
 
 app = Flask(__name__)
 
@@ -20,7 +22,9 @@ class Todo(db.Model):
 @app.route("/")
 def home():
     todo_list = Todo.query.all()
-    return render_template("base.html", todo_list=todo_list)
+    container_id = socket.gethostname()
+    h1_color = os.environ.get("H1_COLOR", "black")
+    return render_template("base.html", todo_list=todo_list, h1_color=h1_color, container_id=container_id)
 
 
 @app.route("/add", methods=["POST"])
@@ -47,10 +51,15 @@ def delete(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
+def create_tables():
+    inspector = sqlalchemy.inspect(db.engine)
+    if not inspector.has_table("todo"):
+        db.create_all()
+
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
+        create_tables()
     app.run(debug=True)
 else: 
     with app.app_context():
-        db.create_all()
+        create_tables()

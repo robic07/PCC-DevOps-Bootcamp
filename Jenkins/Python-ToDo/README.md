@@ -4,7 +4,7 @@ The app is a simple CRUD (Create, read, update, delete) Todo application made wi
 
 ## How to run?
 
-### Node version
+### Python version
 
 - Python 3.8.10
 
