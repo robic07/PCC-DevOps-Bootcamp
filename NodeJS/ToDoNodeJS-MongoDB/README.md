@@ -10,6 +10,19 @@ The app is a simple CRUD (Create, read, update, delete) Todo application made wi
 
 ## Common setup
 
+Copy `.env.sample` to create a `.env` that will be the environment variable for the application. Edit the `.env` file with the correct values.
+
+| Variable Name | Description             | Example       |
+|---------------|-------------------------|---------------|
+| `DB_URL`      | Database host address   | `127.0.0.1`   |
+| `DB_NAME`     | Name of the database    | `test`        |
+
+
+```bash
+cp .env.sample .env
+```
+Install node dependencies
+
 ```bash
 npm install
 ```

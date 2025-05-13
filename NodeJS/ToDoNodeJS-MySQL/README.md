@@ -9,6 +9,20 @@ The app is a simple CRUD (Create, read, update, delete) Todo application made wi
 - NodeJS v20.16.0
 
 ## Common setup
+Copy `.env.sample` to create a `.env` that will be the environment variable for the application. Edit the `.env` file with the correct values.
+
+| Variable Name | Description           | Example Value |
+|---------------|-----------------------|----------------|
+| `DB_HOST`     | Hostname of the database server | `localhost`     |
+| `DB_USER`     | Username used to connect to the database | `test`          |
+| `DB_PASSWORD` | Password for the database user   | `test`          |
+| `DB_NAME`     | Name of the database             | `test`          |
+| `DB_PORT`     | Port number the database is listening on | `3306`          |
+
+```bash
+cp .env.sample .env
+```
+Install node dependencies
 
 ```bash
 npm install
