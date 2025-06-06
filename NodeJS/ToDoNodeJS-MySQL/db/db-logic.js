@@ -8,30 +8,44 @@ async function createTasksTable() {
         task VARCHAR(255) NOT NULL,
         status VARCHAR(255) NOT NULL
       )`;
-    db.query(sql);
+    await db.query(sql);
     console.log("Tasks table created");
 
-    // Insert dummy data (optional)
-    await insertDummyData();
+    // Check if table is empty and insert dummy data only if it is
+    await insertDummyDataIfEmpty();
   } catch (error) {
     console.error("Error creating tasks table:", error);
   }
 }
 
-// Function to insert dummy data (optional)
-async function insertDummyData() {
-  const tasks = [
-    "Learn Node.js basics",
-    "Build a simple web application",
-    "Connect to a database",
-  ];
+// Function to insert dummy data only if table is empty (first run)
+async function insertDummyDataIfEmpty() {
+  try {
+    // Check if table has any data
+    const existingTasks = await db.query("SELECT COUNT(*) as count FROM tasks");
+    const taskCount = existingTasks[0].count;
 
-  for (const task of tasks) {
-    await db.query("INSERT INTO tasks (task, status) VALUES (?, ?)", [
-      task,
-      "pending",
-    ]);
-    console.log(`Task "${task}" inserted`);
+    if (taskCount === 0) {
+      console.log("Table is empty. Inserting dummy data...");
+      const tasks = [
+        "Learn Node.js basics",
+        "Build a simple web application",
+        "Connect to a database",
+      ];
+
+      for (const task of tasks) {
+        await db.query("INSERT INTO tasks (task, status) VALUES (?, ?)", [
+          task,
+          "pending",
+        ]);
+        console.log(`Task "${task}" inserted`);
+      }
+      console.log("Dummy data insertion completed");
+    } else {
+      console.log(`Table already has ${taskCount} tasks. Skipping dummy data insertion.`);
+    }
+  } catch (error) {
+    console.error("Error checking/inserting dummy data:", error);
   }
 }
 

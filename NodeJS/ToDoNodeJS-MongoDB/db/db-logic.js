@@ -23,41 +23,47 @@ const schema = Joi.object().keys({
   status: Joi.string(),
 });
 
-// Function to insert dummy data (optional)
+// Function to insert dummy data only if collection is empty (first run)
 async function createTasksCollection() {
-  const tasks = [
-    "Learn Node.js basics",
-    "Build a simple web application",
-    "Connect to a database",
-  ];
+  try {
+    const tasksCollection = await db.getDB().collection("tasks");
+    
+    // Check if collection has any documents
+    const documentCount = await tasksCollection.countDocuments();
+    
+    if (documentCount === 0) {
+      logger.info("Collection is empty. Inserting dummy data...");
+      
+      const tasks = [
+        "Learn Node.js basics",
+        "Build a simple web application",
+        "Connect to a database",
+      ];
 
-  for (const task of tasks) {
-    const dataInput = {
-      _id: MUUID.v4().toString(),
-      task: task,
-      status: "pending",
-    };
-
-    const value = schema.validate(dataInput);
-    if (value.error) {
-      const error = new Error("Invalid Input: " + value.error);
-      error.status = 400;
-      throw error;
-    }
-    const collection = await db.getDB().collection("tasks");
-    await collection.insertOne(dataInput, (err, result) => {
-      if (err) {
-        const error = new Error("Failed to insert Document");
-        error.status = 400;
-        return error;
-      } else
-        return {
-          result: result,
-          document: result.ops[0],
-          msg: "Successfully inserted Grades!!!",
-          error: null,
+      for (const task of tasks) {
+        const dataInput = {
+          _id: MUUID.v4().toString(),
+          task: task,
+          status: "pending",
         };
-    });
+
+        const value = schema.validate(dataInput);
+        if (value.error) {
+          const error = new Error("Invalid Input: " + value.error);
+          error.status = 400;
+          throw error;
+        }
+        
+        await tasksCollection.insertOne(dataInput);
+        logger.info(`Task "${task}" inserted`);
+      }
+      logger.info("Dummy data insertion completed");
+    } else {
+      logger.info(`Collection already has ${documentCount} tasks. Skipping dummy data insertion.`);
+    }
+  } catch (error) {
+    logger.error("Error checking/inserting dummy data:", error);
+    throw error;
   }
 }
 
@@ -143,7 +149,7 @@ db.connect((err) => {
     logger.error(err);
     process.exit(1);
   } else {
-    // createTasksCollection();
+    createTasksCollection();
     logger.info("DB Connected!");
   }
 });
