@@ -3,9 +3,9 @@ pipeline {
     agent {label 'python-todo'}
 
     environment {
-        REPO_URL = 'https://github.com/kjakepcc/PCC-DevOps-Bootcamp'
+        REPO_URL = 'https://github.com/robic07/PCC-DevOps-Bootcamp.git'
         REPO_DIR = '/home/ubuntu/PCC-DevOps-Bootcamp'
-        DOCKER_IMAGE = 'kjakepcc/pcc-python-todo-sample-app'
+        DOCKER_IMAGE = 'robic07/pcc-python-todo-sample-app'
         DOCKER_TAG = "${currentBuild.number}"
         DOCKER_LATEST_TAG = 'latest'
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub-credentials'
